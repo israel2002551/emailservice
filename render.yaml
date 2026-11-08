@@ -1,0 +1,22 @@
+# Render Blueprint for the BUYSELL email service.
+# Render: New > Blueprint > the emailservice repo. Render reads this file from
+# the top of the repo. See README.md for the dashboard route.
+services:
+  - type: web
+    name: buysell-email-service
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 24.12.0
+      - key: SENDGRID_API_KEY
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      # Render makes a random value. Copy it into the Supabase function
+      # secrets as EMAIL_SERVICE_SECRET.
+      - key: EMAIL_SERVICE_SECRET
+        generateValue: true
